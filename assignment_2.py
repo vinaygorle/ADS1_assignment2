@@ -1,5 +1,4 @@
 """ Importing libraries"""
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -8,15 +7,11 @@ import seaborn as sns
  
 data = pd.read_csv('london_weather.csv')
 
-""" Display the first few rows of the dataset"""
+""" Using head we take first 150 data values"""
 
 print(data.head(150))
 
-""" Check for missing values"""
-
-print(data.isnull().sum())
-
-"""# statistics of the dataset"""
+"""mean meadian mode of the data set"""
 
 print(data.describe())
 
@@ -24,7 +19,7 @@ print(data.describe())
 
 print(data.transpose())
 
-"""# Taking first 150 days of data"""
+""" Taking first 150 days of data"""
 
 data=data.head(150)
 
