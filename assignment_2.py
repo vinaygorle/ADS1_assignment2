@@ -7,9 +7,9 @@ import seaborn as sns
  
 data = pd.read_csv('london_weather.csv')
 
-""" Using head we take first 150 data values"""
+""" Using tail we can take last 150 data values"""
 
-print(data.head(150))
+print(data.tail(150))
 
 """mean meadian mode of the data set"""
 
@@ -19,9 +19,9 @@ print(data.describe())
 
 print(data.transpose())
 
-""" Taking first 150 days of data"""
+""" Taking last 150 days of data"""
 
-data=data.head(150)
+data=data.tail(150)
 
 """# Preprocessing for date and month """
 
@@ -31,7 +31,7 @@ data['date'] = pd.to_datetime(data['date'], format = '%Y%m%d')
 #using a function to call variables for line plot
 def Lineplot(dt, max_t, mean, min_t, heading):
     """line plots for london 150 days and the temperature by taking parameters
-    dt = date we take first 150 days in the data sheet
+    dt = date we take last 150 days in the data sheet
     max_t = Maximum temperature in london data
     mean = mean temperature in the taken data
     min_t = minimum temperature in data sheet
@@ -45,9 +45,10 @@ def Lineplot(dt, max_t, mean, min_t, heading):
     plt.plot(data[dt], data[min_t], label = min_t)
     #Adding labels for the plot
     plt.title(heading)
-    plt.xlabel('date')
-    plt.ylabel('Temperature (°C)')
+    plt.xlabel('last 150 dates')
+    plt.ylabel('Temperature')
     plt.legend()
+    plt.grid()
     plt.show()
 
 """# Histogram for Precipitation"""
@@ -55,28 +56,29 @@ def Lineplot(dt, max_t, mean, min_t, heading):
 def Histogram(precip, heading):
     """Histogram plot for precipition
     by taking precipition data from data file """
-    plt.figure(figsize = (8, 6))
+    plt.figure(figsize = (9, 8))
     # syntax for histogram plot
-    sns.histplot(data[precip], bins = 30, kde = True)
+    sns.histplot(data[precip], bins = 25, kde = True)
     #Adding lables for plots
     plt.title(heading)
-    plt.xlabel('Precipitation')
+    plt.xlabel('Precipitation in london')
     plt.ylabel('Frequency')
+    plt.grid()
     plt.show()
 
 """# scatter plot between Global Radiation and  Max Temperature"""
 #using a function to call
-def Scatterplot(radiation, max_t, heading):
-    """scatterplot betweeen radiation and maximum temperature 
+def Scatterplot(min_t, max_t, heading):
+    """scatterplot betweeen minimum and maximum temperature 
     by taking datas from data file 
-    x-axis = radiation
+    x-axis = minimum temperature
     y-axix = maximum temperature"""
-    plt.figure(figsize = (8, 6))
-    #syntax for scatterplot taking radion and maximum temperature data
-    sns.scatterplot(x = data[radiation], y = data[max_t])
+    plt.figure(figsize = (12, 11))
+    #syntax for scatterplot taking minimum and maximum temperature data
+    sns.scatterplot(x = data[min_t], y = data[max_t])
     #Adding lables for plots
     plt.title(heading)
-    plt.xlabel('Global Radiation')
+    plt.xlabel('minimum temperature')
     plt.ylabel('Maximum Temperature')
     plt.show()
     
@@ -90,11 +92,11 @@ def violinplot(mon, date, press, heading):
     pess = pressure in the climate"""
     data[mon] = data[date].dt.month
     #syntax for the plot
-    plt.figure(figsize = (10, 6))
+    plt.figure(figsize = (8, 6))
     sns.violinplot(x = mon, y = press, data = data)
     #Adding lables for plots
     plt.title(heading)
-    plt.xlabel('Month')
+    plt.xlabel('Months')
     plt.ylabel('Pressure')
     plt.show()
     
@@ -102,8 +104,8 @@ def violinplot(mon, date, press, heading):
 """Heatmap for the complete data"""
 #using a function to call       
 def Heatmap(heading):
-    """Heatmap for the first 150 climate data"""
-    plt.figure(figsize = (10, 8))
+    """Heatmap for the last 150 climate data"""
+    plt.figure(figsize = (8, 6))
     #syntax for heatmap
     sns.heatmap(data.corr(), annot = True, cmap = 'coolwarm', fmt ='.2f')
     #Adding lables for plots
@@ -112,8 +114,8 @@ def Heatmap(heading):
 
          
 """calling all the variables used in the above functions"""
-Lineplot('date', 'max_temp', 'mean_temp', 'min_temp', 'Temperature Variation')
-Histogram('precipitation', 'Precipitation Distribution')
-Scatterplot('global_radiation', 'max_temp', 'Global Radiation vs Max Temperature')
-violinplot('month', 'date', 'pressure', 'Pressure Variation by Month')
+Lineplot('date', 'max_temp', 'mean_temp', 'min_temp', 'Min Max & Mean Temperatures')
+Histogram('precipitation', 'Precipitation over london')
+Scatterplot('min_temp', 'max_temp', 'minimum and Max Temperature')
+violinplot('month', 'date', 'pressure', 'Pressure for last 5 months')
 Heatmap('Correlation Heatmap')
